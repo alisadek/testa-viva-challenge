@@ -1,0 +1,62 @@
+{
+  "extends": ["airbnb-typescript", "plugin:prettier/recommended"],
+  "env": {
+    "browser": true,
+    "jest": true,
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+    "prettier/prettier": [
+      "off",
+      { "trailingComma": "none", "endOfLine": "auto", "arrowParens": "avoid" }
+    ],
+    "no-template-curly-in-string": "off",
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/brace-style": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/quotes": "off",
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-extra-semi": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/no-redeclare": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "react/no-unused-prop-types": "off",
+    "react/no-unescaped-entities": "off",
+    "react/no-array-index-key": "off",
+    "react/destructuring-assignment": "off",
+    "react/require-default-props": "off",
+    "react/jsx-curly-newline": "off",
+    "react/jsx-tag-spacing": "off",
+    "react/jsx-props-no-multi-spaces": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-no-duplicate-props": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/order": "off",
+    "import/newline-after-import": "off",
+    "import/no-useless-path-segments": "off",
+    "consistent-return": "off",
+    "object-shorthand": "off",
+    "prefer-const": "off",
+    "no-new": "off",
+    "no-shadow": "off",
+    "no-nested-ternary": "off",
+    "no-param-reassign": "off"
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "overrides": [
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ]
+}
