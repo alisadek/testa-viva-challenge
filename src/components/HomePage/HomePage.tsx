@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from '../Card/Card';
 import ParagraphCard from '../ParagraphCard/ParagraphCard';
+import TabsBar from '../TabsBar/TabsBar';
 import styles from './HomePage.module.scss';
 
 type Props = {};
@@ -8,6 +9,7 @@ type Props = {};
 const HomePage = (props: Props) => {
   return (
     <div className={styles.page}>
+      <TabsBar />
       <div className={styles.documentViewer}>
         <Card>
           <h1>Dokument</h1>
