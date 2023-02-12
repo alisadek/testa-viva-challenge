@@ -1,5 +1,5 @@
 {
-  "extends": ["airbnb-typescript", "plugin:prettier/recommended"],
+  "extends": ["airbnb-typescript", "plugin:prettier/recommended", "plugin:import/recommended"],
   "env": {
     "browser": true,
     "jest": true,
