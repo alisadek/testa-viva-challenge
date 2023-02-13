@@ -5,14 +5,12 @@
   border-radius: 8px;
   background-color: #004f54;
   display: flex;
-  // flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   gap: 20px;
   z-index: 1;
   position: absolute;
   right: 16px;
   align-items: center;
-  margin-left: 56px;
 }
 .iconsColumn {
   height: 100%;
@@ -44,6 +42,7 @@
 .commentIcon {
   width: 18.41px;
   height: 13.7px;
+  cursor: pointer;
 }
 
 .arrowUp {
@@ -96,4 +95,5 @@
 .isOpen {
   width: 496px;
   display: flex;
+  justify-content: space-between !important;
 }
