@@ -9,11 +9,12 @@ import useOutsideClick from '../../hooks/useOnClickOutside';
 
 type Props = {
   onInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  comments?: Partial<Comment>[] | null;
+  comments?: Comment[] | null;
   onSubmit: () => void;
-  onSelectComment: (comment?: Partial<Comment>) => void;
-  activeComment: Partial<Comment> | null;
+  onSelectComment: (comment?: Comment) => void;
+  activeComment: Comment | null;
   onAddComment: () => void;
+  onDelete: () => void;
 };
 
 const CommentsBar = (props: Props) => {
@@ -28,7 +29,7 @@ const CommentsBar = (props: Props) => {
     toggleOpen(false);
   });
 
-  const { onInputChange, comments, onSubmit } = props;
+  const { onInputChange, comments, onSubmit, onDelete } = props;
   const ACTIVE_COMMENTS = comments?.slice(scrollBoundaries.start, scrollBoundaries.end);
   const handleScrollDown = () => {
     if (comments && comments.length > 4) {
@@ -61,11 +62,18 @@ const CommentsBar = (props: Props) => {
             onChange={onInputChange}
             placeholder="Enter your comment..."
             className={styles.textArea}
-            value={props.activeComment?.comment}
+            value={props.activeComment?.comment || ''}
           />
           <div className={styles.actionsSection}>
             <button onClick={onSubmit}>Gem</button>
-            <img src={trashIcon} alt="trash icon" />
+            <img
+              src={trashIcon}
+              alt="trash icon"
+              onClick={() => {
+                onDelete();
+                toggleOpen(false);
+              }}
+            />
           </div>
         </div>
       )}

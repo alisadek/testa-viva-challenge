@@ -15,17 +15,17 @@ const HomePage = (props: Props) => {
   const { data: documents, isLoading, error } = useDocuments();
   const [activeDocument, setActiveDocument] = useState<Document | null | undefined>(null);
   const [mode, setMode] = useState<'create' | 'update' | null>(null);
-  const [activeComment, setActiveComment] = useState<Partial<Comment> | null>(null);
+  const [activeComment, setActiveComment] = useState<Comment | null>(null);
   const { add, update, remove } = useCommentsMutation();
   const { data: commentsData, isLoading: isCommentsLoading, error: commentsError } = useComments();
-  const [comments, setComments] = useState<Partial<Comment>[] | null>(null);
+  const [comments, setComments] = useState<Comment[] | null>(null);
 
   const handleCommentTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.currentTarget;
     const updatedComment = { ...activeComment, comment: value };
-    setActiveComment(updatedComment);
+    setActiveComment(updatedComment as Comment);
     const filteredComments = comments?.filter(comment => comment.id !== activeComment?.id);
-    const newComments = [...(filteredComments as Comment[]), updatedComment];
+    const newComments = [...(filteredComments as Comment[]), updatedComment as Comment];
     setComments(newComments);
   };
   const handleSubmit = () => {
@@ -55,7 +55,7 @@ const HomePage = (props: Props) => {
     setActiveComment(null);
     if (currentDocument) setActiveDocument(currentDocument);
   };
-  const handleSelectComment = (comment?: Partial<Comment>) => {
+  const handleSelectComment = (comment?: Comment) => {
     setMode('update');
     if (activeDocument && comment) setActiveComment(comment);
   };
@@ -67,16 +67,29 @@ const HomePage = (props: Props) => {
         id: Math.floor(Math.random() * 10 * Date.now()),
         author: 'Ali Sadek',
         document: activeDocument.id.toString(),
-        created: date
+        created: date,
+        comment: ''
       };
       setActiveComment(newComment);
       setComments(prevComments => [...(prevComments as any), newComment]);
     }
   };
-
+  const handleDelete = () => {
+    const isStored = commentsData?.find(comment => comment.id === activeComment?.id);
+    if (isStored && activeComment) remove.mutate(activeComment.id?.toString());
+    else {
+      const newComments = comments?.filter(comment => comment.id !== activeComment?.id);
+      setComments(newComments as Comment[]);
+      if (comments![0]) {
+        setActiveComment(comments![0]);
+      } else {
+        setActiveComment(null);
+      }
+    }
+  };
   useEffect(() => {
     if (commentsData) {
-      comments?.filter(comment => comment.document === activeDocument?.id);
+      comments?.filter(comment => comment.document === activeDocument?.id.toString());
       setComments(commentsData);
     }
   }, [commentsData, activeDocument]);
@@ -102,6 +115,7 @@ const HomePage = (props: Props) => {
             <div className={styles.textAndBarContainer}>
               <pre className={styles.text}>{activeDocument?.content}</pre>
               <CommentsBar
+                onDelete={handleDelete}
                 onInputChange={handleCommentTextChange}
                 comments={comments}
                 onSubmit={handleSubmit}
