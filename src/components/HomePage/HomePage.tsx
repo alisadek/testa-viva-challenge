@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDocuments } from '../../hooks/documents.hook';
 import { Comment, Document } from '../../types';
-import axios from 'axios';
+import { isAxiosError } from 'axios';
 import Card from '../Card/Card';
 import ParagraphCard from '../ParagraphCard/ParagraphCard';
 import TabsBar from '../TabsBar/TabsBar';
@@ -10,7 +10,6 @@ import CommentsBar from '../CommentsBar/CommentsBar';
 import { useComments, useCommentsMutation } from '../../hooks/comments.hook';
 
 type Props = {};
-const COMMENTS = ['mido', 'zizo', 'dido', 'fido', 'kiko'];
 const HomePage = (props: Props) => {
   const { data: documents, isLoading, error } = useDocuments();
   const [activeDocument, setActiveDocument] = useState<Document | null | undefined>(null);
@@ -99,7 +98,7 @@ const HomePage = (props: Props) => {
   }, [documents]);
 
   if (isLoading) return <h1>Loading...</h1>;
-  if (error && axios.isAxiosError(error))
+  if (error && isAxiosError(error))
     return <h3 style={{ color: 'red' }}>An error has occurred: {error.message}</h3>;
 
   return (
