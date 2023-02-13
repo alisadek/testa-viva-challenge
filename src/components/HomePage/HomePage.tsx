@@ -15,7 +15,8 @@ const HomePage = (props: Props) => {
   const [activeDocument, setActiveDocument] = useState<Document | null | undefined>(null);
 
   useEffect(() => {
-    setActiveDocument(documents?.['hydra:member']?.[0]);
+    console.log(documents);
+    setActiveDocument(documents?.[0]);
   }, [documents]);
 
   if (isLoading) return <h1>Loading...</h1>;
@@ -23,7 +24,7 @@ const HomePage = (props: Props) => {
     return <h3 style={{ color: 'red' }}>An error has occurred: {error.message}</h3>;
 
   const handleChange = (selectedId: number) => {
-    const currentDocument = documents?.['hydra:member'].find(doc => doc.id === selectedId);
+    const currentDocument = documents?.find(doc => doc.id === selectedId);
     if (currentDocument) setActiveDocument(currentDocument);
   };
 
@@ -31,14 +32,14 @@ const HomePage = (props: Props) => {
     <div className={styles.page}>
       <TabsBar
         onChange={handleChange}
-        tabs={documents?.['hydra:member'].map(doc => ({ id: doc.id, title: doc.title })) || []}
+        tabs={documents?.map(doc => ({ id: doc.id, title: doc.title })) || []}
       />
       <div className={styles.documentViewer}>
         <Card>
           <h1>{activeDocument?.title}</h1>
           <ParagraphCard>
             <div className={styles.textAndBarContainer}>
-              <p>{activeDocument?.content}</p>
+              <pre className={styles.text}>{activeDocument?.content}</pre>
               <CommentsBar />
             </div>
           </ParagraphCard>

@@ -18,3 +18,13 @@
   justify-content: space-between;
   gap: 56px;
 }
+
+.text {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 43px;
+  color: #696969;
+}

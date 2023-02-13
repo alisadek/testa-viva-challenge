@@ -1,8 +1,11 @@
 import axios from 'axios';
-import { Documents } from '../types';
+import { Document } from '../types';
 
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER_URL}`
+  baseURL: `${process.env.REACT_APP_SERVER_URL}`,
+  headers: {
+    Accept: 'application/json'
+  }
 });
 
-export const getDocuments = () => api.get<Documents>('/documents').then(res => res.data);
+export const getDocuments = () => api.get<Document[]>('/documents').then(res => res.data);
