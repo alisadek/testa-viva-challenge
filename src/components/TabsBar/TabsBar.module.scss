@@ -20,10 +20,13 @@
 .tab {
   background-color: transparent;
   border: none;
+  cursor: pointer;
   color: #fff;
   // width: 76px;
   // height: 24px;
   font-weight: 700;
+  min-width: 111px;
+
   line-height: 43px;
 }
 
@@ -33,14 +36,14 @@
 }
 
 .selected {
-  width: 111px;
+  min-width: 111px;
   margin-top: 15px;
   height: 35px;
   display: inline-flex;
   align-self: flex-end;
   justify-content: center;
   align-items: center;
-  padding: 5px 0;
+  padding: 5px 20px;
   z-index: 1;
   border-radius: 5px 5px 0 0;
   background-color: #f9fbfc;
