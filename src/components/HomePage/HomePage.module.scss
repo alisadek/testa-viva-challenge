@@ -12,3 +12,9 @@
   min-height: 940px;
   display: flex;
 }
+
+.textAndBarContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 56px;
+}

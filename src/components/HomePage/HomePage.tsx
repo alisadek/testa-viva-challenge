@@ -6,6 +6,7 @@ import Card from '../Card/Card';
 import ParagraphCard from '../ParagraphCard/ParagraphCard';
 import TabsBar from '../TabsBar/TabsBar';
 import styles from './HomePage.module.scss';
+import CommentsBar from '../CommentsBar/CommentsBar';
 
 type Props = {};
 
@@ -36,7 +37,10 @@ const HomePage = (props: Props) => {
         <Card>
           <h1>{activeDocument?.title}</h1>
           <ParagraphCard>
-            <p>{activeDocument?.content}</p>
+            <div className={styles.textAndBarContainer}>
+              <p>{activeDocument?.content}</p>
+              <CommentsBar />
+            </div>
           </ParagraphCard>
         </Card>
       </div>
