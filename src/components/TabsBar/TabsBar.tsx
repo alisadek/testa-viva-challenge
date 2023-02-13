@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './TabsBar.module.scss';
 import logo from '../../assets/icon-logo.png';
-import { getDocuments } from '../../api/apis';
 
 type Tab = { id: number; title: string };
 type Props = { tabs: Tab[]; initialSelection?: number; onChange: (selection: number) => void };

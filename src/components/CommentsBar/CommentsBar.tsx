@@ -17,25 +17,26 @@ type Props = {
   onDelete: () => void;
 };
 
+const MAX_VISIBLE_COMMENTS = 4;
 const CommentsBar = (props: Props) => {
-  const [open, toggleOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [scrollBoundaries, setScrollBoundaries] = useState<{ start: number; end: number }>({
     start: 0,
-    end: 4
+    end: MAX_VISIBLE_COMMENTS
   });
 
   const ref = useRef();
   useOutsideClick(ref, () => {
-    toggleOpen(false);
+    setIsOpen(false);
   });
 
   const { onInputChange, comments, onSubmit, onDelete } = props;
   const ACTIVE_COMMENTS = comments?.slice(scrollBoundaries.start, scrollBoundaries.end);
   const handleScrollDown = () => {
-    if (comments && comments.length > 4) {
+    if (comments && comments.length > MAX_VISIBLE_COMMENTS) {
       if (
         scrollBoundaries.end <= comments.length &&
-        scrollBoundaries.end - scrollBoundaries.start === 4
+        scrollBoundaries.end - scrollBoundaries.start === MAX_VISIBLE_COMMENTS
       ) {
         setScrollBoundaries(prevBoundaries => ({
           end: prevBoundaries.end + 1,
@@ -45,8 +46,8 @@ const CommentsBar = (props: Props) => {
     }
   };
   const handleScrollUp = () => {
-    if (comments && comments.length > 4) {
-      if (scrollBoundaries.end > 4 && scrollBoundaries.start > 0) {
+    if (comments && comments.length > MAX_VISIBLE_COMMENTS) {
+      if (scrollBoundaries.end > MAX_VISIBLE_COMMENTS && scrollBoundaries.start > 0) {
         setScrollBoundaries(prevBoundaries => ({
           end: prevBoundaries.end--,
           start: prevBoundaries.start--
@@ -55,8 +56,8 @@ const CommentsBar = (props: Props) => {
     }
   };
   return (
-    <div className={`${styles.bar} ${open && styles.isOpen}`} ref={ref as any}>
-      {open && (
+    <div className={`${styles.bar} ${isOpen && styles.isOpen}`} ref={ref as any}>
+      {isOpen && (
         <div className={styles.commentSection}>
           <textarea
             onChange={onInputChange}
@@ -71,7 +72,7 @@ const CommentsBar = (props: Props) => {
               alt="trash icon"
               onClick={() => {
                 onDelete();
-                toggleOpen(false);
+                setIsOpen(false);
               }}
             />
           </div>
@@ -90,7 +91,13 @@ const CommentsBar = (props: Props) => {
               {ACTIVE_COMMENTS?.map(comment => (
                 <img
                   onClick={() => {
-                    toggleOpen(!open);
+                    if (isOpen && props.activeComment?.id === comment.id) {
+                      props.onSelectComment(comment);
+
+                      setIsOpen(false);
+                      return;
+                    }
+                    setIsOpen(true);
                     props.onSelectComment(comment);
                   }}
                   className={styles.commentIcon}
@@ -106,7 +113,7 @@ const CommentsBar = (props: Props) => {
             src={addIcon}
             alt="Plus Icon"
             onClick={() => {
-              toggleOpen(!open);
+              setIsOpen(true);
               props.onAddComment();
             }}
           />
