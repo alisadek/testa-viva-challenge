@@ -19,7 +19,7 @@ const HomePage = (props: Props) => {
   const [activeComment, setActiveComment] = useState<Comment | null>(null);
   const { add, update, remove } = useCommentsMutation();
   const { data: commentsData, isLoading: isCommentsLoading, error: commentsError } = useComments();
-  const [comments, setComments] = useState<Comment[] | null>(null);
+  const [comments, setComments] = useState<Comment[] | null | undefined>(null);
 
   const handleCommentTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.currentTarget;
@@ -47,7 +47,7 @@ const HomePage = (props: Props) => {
         comment: activeComment.comment,
         author: activeComment.author,
         created: creationDate,
-        document: activeComment.document
+        document: `api/documents/${activeComment.document}` // TODO use @id from api
       });
       return;
     }
@@ -83,7 +83,7 @@ const HomePage = (props: Props) => {
       return;
     }
     const newComments = comments?.filter(comment => comment.id !== activeComment?.id);
-    setComments(newComments as Comment[]);
+    setComments(newComments);
     if (comments![0]) {
       setActiveComment(comments![0]);
     } else {
@@ -92,8 +92,10 @@ const HomePage = (props: Props) => {
   };
   useEffect(() => {
     if (commentsData) {
-      comments?.filter(comment => comment.document === activeDocument?.id.toString());
-      setComments(commentsData);
+      const activeDocumentComments = commentsData?.filter(
+        comment => comment.document === `/api/documents/${activeDocument?.id.toString()}`
+      );
+      setComments(activeDocumentComments);
     }
   }, [commentsData, activeDocument]);
 
