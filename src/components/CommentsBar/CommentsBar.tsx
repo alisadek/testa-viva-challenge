@@ -100,7 +100,9 @@ const CommentsBar = (props: Props) => {
                     setIsOpen(true);
                     props.onSelectComment(comment);
                   }}
-                  className={styles.commentIcon}
+                  className={`${styles.commentIcon} ${
+                    comment.id === props.activeComment?.id && styles.selectedComment
+                  } `}
                   src={commentIcon}
                   key={comment.id}
                   alt="Comment Icon"
